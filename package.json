@@ -1,0 +1,53 @@
+{
+  "name": "udacity-api-starter",
+  "version": "1.0.0",
+  "description": "Starter for Udacity-style Node/Express + PostgreSQL + TypeScript API with JWT, bcrypt, db-migrate, and tests.",
+  "main": "dist/server.js",
+  "license": "MIT",
+  "scripts": {
+  "build": "tsc",
+  "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+  "start": "node dist/server.js",
+
+  "db:up": "dotenv -e .env -- db-migrate --env dev up",
+  "db:down": "dotenv -e .env -- db-migrate --env dev down",
+  "db:reset": "dotenv -e .env -- db-migrate --env dev reset",
+
+  "db:test:up": "dotenv -e .env -- db-migrate --env test up",
+  "db:test:reset": "dotenv -e .env -- db-migrate --env test reset",
+
+  "pretest": "cross-env ENV=test npm run build && npm run db:test:up",
+  "test": "cross-env ENV=test dotenv -e .env -- jasmine --config=jasmine.json",
+  "posttest": "npm run db:test:reset"
+},
+
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jasmine": "^4.3.6",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/morgan": "^1.9.7",
+    "@types/node": "^22.5.0",
+    "@types/pg": "^8.11.6",
+    "@types/supertest": "^6.0.3",
+    "cross-env": "^7.0.3",
+    "db-migrate": "^0.11.14",
+    "db-migrate-pg": "^1.5.2",
+    "dotenv-cli": "^10.0.0",
+    "jasmine": "^5.1.0",
+    "supertest": "^7.0.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.4"
+  }
+}
