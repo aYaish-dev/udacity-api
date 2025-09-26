@@ -24,15 +24,38 @@ This file documents the API routes, database schema, and any non-default choices
 
 ## Database Schema
 
-- `users`:
-  - `id SERIAL PRIMARY KEY`
-  - `first_name VARCHAR(100)`
-  - `last_name  VARCHAR(100)`
-  - `email VARCHAR(255) UNIQUE NOT NULL`
-  - `password_digest TEXT NOT NULL`
-  - timestamps
+### users
+- id: SERIAL PRIMARY KEY
+- first_name: VARCHAR(100) NOT NULL
+- last_name: VARCHAR(100) NOT NULL
+- email: VARCHAR(255) UNIQUE NOT NULL
+- password_digest: TEXT NOT NULL
+- created_at: TIMESTAMP DEFAULT now()
+- updated_at: TIMESTAMP DEFAULT now()
 
-Add additional tables as needed (`products`, `orders`, `order_products` etc.).
+### products
+- id: SERIAL PRIMARY KEY
+- name: VARCHAR(150) NOT NULL
+- price: NUMERIC NOT NULL
+- category: VARCHAR(100)
+- created_at: TIMESTAMP DEFAULT now()
+- updated_at: TIMESTAMP DEFAULT now()
+
+### orders
+- id: SERIAL PRIMARY KEY
+- user_id: INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
+- status: VARCHAR(50) NOT NULL
+- created_at: TIMESTAMP DEFAULT now()
+- updated_at: TIMESTAMP DEFAULT now()
+
+### order_products
+- id: SERIAL PRIMARY KEY
+- order_id: INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE
+- product_id: INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE
+- quantity: INTEGER NOT NULL
+- created_at: TIMESTAMP DEFAULT now()
+- updated_at: TIMESTAMP DEFAULT now()
+
 
 ## Data Shapes (TypeScript)
 
