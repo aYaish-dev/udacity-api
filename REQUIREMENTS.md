@@ -44,7 +44,7 @@ This file documents the API routes, database schema, and any non-default choices
 ### orders
 - id: SERIAL PRIMARY KEY
 - user_id: INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE
-- status: VARCHAR(50) NOT NULL
+-status: VARCHAR(20) NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'complete'))
 - created_at: TIMESTAMP DEFAULT now()
 - updated_at: TIMESTAMP DEFAULT now()
 
@@ -52,7 +52,7 @@ This file documents the API routes, database schema, and any non-default choices
 - id: SERIAL PRIMARY KEY
 - order_id: INTEGER NOT NULL REFERENCES orders(id) ON DELETE CASCADE
 - product_id: INTEGER NOT NULL REFERENCES products(id) ON DELETE CASCADE
-- quantity: INTEGER NOT NULL
+- quantity: INTEGER NOT NULL CHECK (quantity > 0)
 - created_at: TIMESTAMP DEFAULT now()
 - updated_at: TIMESTAMP DEFAULT now()
 
@@ -67,7 +67,25 @@ export type User = {
   email: string;
   password?: string; // plaintext only when creating
 };
-```
+export type Product = {
+  id?: number;
+  name: string;
+  price: number;
+  category?: string;
+};
+
+export type Order = {
+  id?: number;
+  user_id: number;
+  status: 'active' | 'complete';
+};
+
+export type OrderProduct = {
+  id?: number;
+  order_id: number;
+  product_id: number;
+  quantity: number;
+};
 
 ## Security
 - Passwords are hashed with **bcrypt** and a **salt** + **pepper**.
